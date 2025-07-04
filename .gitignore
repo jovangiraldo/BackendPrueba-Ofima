@@ -1,0 +1,26 @@
+# Archivos de Visual Studio
+.vs/
+*.user
+*.suo
+*.vsidx
+
+# Archivos de compilación
+bin/
+obj/
+*.dll
+*.exe
+
+# Archivos temporales y de sistema
+*.log
+*.tmp
+*.cache
+
+# Archivos de publicación
+publish/
+*.dbmdl
+
+# Otros archivos innecesarios
+TestResults/
+*.ncrunch*
+_ReSharper*/
+*.resharper
