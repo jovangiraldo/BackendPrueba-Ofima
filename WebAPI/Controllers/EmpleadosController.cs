@@ -83,10 +83,10 @@ namespace WebAPI.Controllers
             await _service.DeleteEmpleado(id);
             return NoContent();
         }
-    
 
-    [HttpPatch("{id}")]
-        public async Task<ActionResult> PatchEmpleado(int id, [FromBody] EmpleadoDTO empleadoDTO)
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> PatchEmpleado(int id, [FromBody] EmpleadoPatchDTO empleadoDTO)
         {
             if (empleadoDTO == null)
             {
@@ -99,7 +99,6 @@ namespace WebAPI.Controllers
                 return NotFound(new { message = "Empleado no encontrado" });
             }
 
-            // Actualiza solo los campos que no vengan nulos (o por defecto)
             if (!string.IsNullOrWhiteSpace(empleadoDTO.Nombre))
                 existingEmpleado.Nombre = empleadoDTO.Nombre;
 
@@ -115,11 +114,11 @@ namespace WebAPI.Controllers
             if (!string.IsNullOrWhiteSpace(empleadoDTO.Telefono))
                 existingEmpleado.Telefono = empleadoDTO.Telefono;
 
-            if (empleadoDTO.FechaIngreso != default(DateTime))
-                existingEmpleado.FechaIngreso = empleadoDTO.FechaIngreso;
+            if (empleadoDTO.FechaIngreso.HasValue)
+                existingEmpleado.FechaIngreso = empleadoDTO.FechaIngreso.Value;
 
-            // Aquí sí podrías permitir actualizar explícitamente el estado "Activo"
-            existingEmpleado.Activo = empleadoDTO.Activo;
+            if (empleadoDTO.Activo.HasValue)
+                existingEmpleado.Activo = empleadoDTO.Activo.Value;
 
             var updated = await _service.UpdateEmpleado(existingEmpleado);
             if (!updated)
@@ -140,7 +139,7 @@ namespace WebAPI.Controllers
             });
         }
 
-    }
 
+    }
 }
 
